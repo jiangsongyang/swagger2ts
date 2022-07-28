@@ -22,7 +22,7 @@ export interface LogErrorOptions extends LogOptions {
 }
 
 const output = (type: LogType, msg: string) => {
-  const prefix = 'logger'
+  const prefix = 'swagger2ts'
 
   /* eslint no-nested-ternary: 0 */
   const tag =
@@ -32,7 +32,9 @@ const output = (type: LogType, msg: string) => {
       ? colors.yellow(colors.bold(prefix))
       : colors.red(colors.bold(prefix))
 
-  console[type](`${colors.bgWhite(colors.bold(new Date().toLocaleTimeString()))} : ${tag} - ${msg}`)
+  console[type](
+    `${colors.bgWhite(colors.bold(new Date().toLocaleTimeString()))} : ${tag}  ` + '\n\t' + `${msg}`
+  )
 }
 
 export function createLogger(): Logger {
