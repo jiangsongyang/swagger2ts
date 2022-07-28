@@ -1,1 +1,3 @@
-# swagger2ts
+# mini-redux
+
+mini-redux
