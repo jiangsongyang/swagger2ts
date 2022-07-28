@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs'
+export { resolveOptions } from './config'
 
-export const main = () => {
-  console.log(1111, readFileSync)
-}
+export type { Swagger2TsOptions } from './config'

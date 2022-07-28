@@ -1,0 +1,125 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "ChestPainPlatform.Archives.Service"
+  },
+  "paths": {
+    "/test/getList": {
+      "get": {
+        "tags": ["test tags"],
+        "summary": "mock获取列表",
+        "operationId": "getList",
+        "consumes": [],
+        "produces": ["text/plain", "application/json", "text/json"],
+        "parameters": [
+          {
+            "name": "lastArchiveId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "beginTime",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ResponsePageResult"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ResponsePageResult": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/PageResult"
+        },
+        "code": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "serverTime": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "PageResult": {
+      "type": "object",
+      "properties": {
+        "pagination": {
+          "$ref": "#/definitions/Pagination"
+        },
+        "records": {
+          "uniqueItems": false,
+          "type": "array",
+          "items": {
+            "format": "int64",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "Pagination": {
+      "type": "object",
+      "properties": {
+        "pageIndex": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "pageSize": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "total": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
