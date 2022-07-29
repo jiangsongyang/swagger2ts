@@ -4,9 +4,9 @@ import axios from 'axios';
 /**  ============================= API ======================================  */
 
 <% APIsResult.forEach(function(API){ %>
-  <% if(API.apiDescription) {%>
-  /** <%- API.apiDescription %> */
-  <% } %>
+<% if(API.apiDescription) {%>
+/** <%- API.apiDescription %> */
+<% } %>
 export function <%- API.apiName %>(<%- API.parameters %>options?: any
   ): Promise<<%- API.responseType %>> {
     return axios({}).then(response => {
