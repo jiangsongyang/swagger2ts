@@ -39,11 +39,11 @@ export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedCon
 
   const resolved: ResolvedConfig = {
     name,
-    ...res,
     output,
     httpClientType,
     input,
-    url
+    url,
+    ...res
   }
 
   return resolved

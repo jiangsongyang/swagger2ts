@@ -7,16 +7,18 @@ export type SwaggerPathResponses = {
   }
 }
 
+export type SwaggerPathItemValue = {
+  tags: string[]
+  summary: string
+  operationId: string
+  consumes: []
+  produces: string[]
+  parameters: any[]
+  responses: SwaggerPathResponses
+}
+
 export type SwaggerPathItem = {
-  [Method: string]: {
-    tags: string[]
-    summary: string
-    operationId: string
-    consumes: []
-    produces: string[]
-    parameters: any[]
-    responses: SwaggerPathResponses
-  }
+  [Method: string]: SwaggerPathItemValue
 }
 
 export type SwaggerPath = {
