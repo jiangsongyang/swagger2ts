@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { parseSwagger } from './parse'
+
 import { createLogger } from '../helper/logger'
 
 export type Swagger2TsOptions = {
@@ -12,7 +13,7 @@ export type Swagger2TsOptions = {
 
 const logger = createLogger()
 
-type ResolvedConfig = any
+export type ResolvedConfig = any
 
 export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedConfig> = async (
   options

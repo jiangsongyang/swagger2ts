@@ -1,0 +1,27 @@
+import axios from 'axios';
+
+
+/**  ============================= API ======================================  */
+
+<% pathsResult.forEach(function(pathInfo){ %>
+  function <%- pathInfo.apiName %>(<%- pathInfo.parameters %> options?: any): Promise<<%- pathInfo.response %>> {
+    return axios({}).then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.data;
+      }
+    });
+  }
+<% }); %>
+
+/**  ============================= TYPE ======================================  */
+
+<% interfaces.forEach(function(interface){ %>
+  interface <%- interface.name %> {
+    <% interface.interfaceBody.forEach(function(interfaceBody){ %>
+      <% if(interfaceBody.description) {%>
+      // <%- interfaceBody.description %> 
+      <% } %>
+      <%- interfaceBody.key %>: <%- interfaceBody.value %>;
+    <% }); %>
+  }
+<% }); %>

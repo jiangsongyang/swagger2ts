@@ -1,19 +1,21 @@
-// 最终转换目标
+import ejs from 'ejs'
+import { resolve } from 'node:path'
+import { readFileSync, writeFileSync } from 'node:fs'
+import type { ResolvedConfig } from './config'
 
-// function getList(id: number, data: DataRequest , options?: any): Promise<ResponseStringResponse> {
-//   const params = {
-//     method: method,
-//     url: basePath + url,
-//     headers: Object.assign({}, requestHeaders, options.headers),
-//     data: data,
-// };
-//   return axios(params).then(response => {
-//       if (response.status >= 200 && response.status < 300) {
-//         return response.data;
-//       }
-//   });
-// }
+export const genCode = async (resolvedConfig: ResolvedConfig) => {
+  const { pathsResult } = resolvedConfig
 
-export const genCode = () => {
-  //
+  const template = readFileSync(resolve(__dirname, '../templates/api.ejs'), 'utf-8')
+  try {
+    const buffer = ejs.render(template, {
+      pathsResult,
+      interfaces: []
+    })
+    const { name } = resolvedConfig
+
+    await writeFileSync(`${name}`, buffer)
+  } catch (e) {
+    console.log(e)
+  }
 }

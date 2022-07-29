@@ -5,7 +5,7 @@ describe('happy path', () => {
   it('happy path', () => {
     swagger2ts({
       name: 'MySuperbApi.ts',
-      output: resolve(__dirname, './__generated__'),
+      output: resolve(__dirname, '../__generated__'),
       input: resolve(__dirname, '../mock/base.json'),
       httpClientType: 'axios'
     })
