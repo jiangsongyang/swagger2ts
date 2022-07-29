@@ -12,7 +12,7 @@ export const parseSwagger = (swaggerJsonStr: string) => {
   }
 
   const { pathsResult, effectTypesWithParsePaths } = transformPaths(paths)
-  const definitionsResult = transformDefinitions(definitions)
+  const { definitionsResult, effectTypesWithParseInterface } = transformDefinitions(definitions)
 
   return {
     swaggerInfo,
@@ -20,6 +20,7 @@ export const parseSwagger = (swaggerJsonStr: string) => {
     pathsResult,
     effectTypesWithParsePaths,
     // definitions
-    definitionsResult
+    definitionsResult,
+    effectTypesWithParseInterface
   }
 }

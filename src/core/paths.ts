@@ -17,11 +17,6 @@ export const transformPaths = (paths: SwaggerPath) => {
     })
   }
 
-  // collection API generating side effects
-  pathsResult.forEach((api) => {
-    console.log(api)
-  })
-
   return {
     pathsResult,
     effectTypesWithParsePaths

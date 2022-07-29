@@ -3,26 +3,39 @@ import axios from 'axios';
 
 /**  ============================= API ======================================  */
 
-<% pathsResult.forEach(function(pathInfo){ %>
-  function <%- pathInfo.apiName %>(<%- pathInfo.parameters %>options?: any
-  ): Promise<<%- pathInfo.response %>> {
+<% APIsResult.forEach(function(API){ %>
+  <% if(API.apiDescription) {%>
+  /** <%- API.apiDescription %> */
+  <% } %>
+export function <%- API.apiName %>(<%- API.parameters %>options?: any
+  ): Promise<<%- API.responseType %>> {
     return axios({}).then(response => {
       if (response.status >= 200 && response.status < 300) {
         return response.data;
       }
-    });
-  }
+  });
+}
 <% }); %>
 
 /**  ============================= TYPE ======================================  */
-
-<% interfaces.forEach(function(interface){ %>
-  interface <%- interface.name %> {
-    <% interface.interfaceBody.forEach(function(interfaceBody){ %>
-      <% if(interfaceBody.description) {%>
-      // <%- interfaceBody.description %> 
-      <% } %>
-      <%- interfaceBody.key %>: <%- interfaceBody.value %>;
-    <% }); %>
-  }
+<% typesResult.forEach(function(type){ %>
+export interface <%- type.interfaceName %> {
+ 
+  <% type.interfaceValue.forEach(function(interfaceItem){ %>
+   <% if(interfaceItem.description) {%>
+    /**  <%- interfaceItem.description %> */
+    <% } %>
+    <%- interfaceItem.key %> : <%- interfaceItem.value %>;
+  <% }); %>
+}
 <% }); %>
+
+<% enumsResult.forEach(function(enumItem){ %>
+export enum <%- enumItem.enumName %> {
+  <% enumItem.enumValue.forEach(function(value){ %>
+    <%- value %>,
+  <% }); %>
+}
+<% }); %>
+
+

@@ -1,9 +1,18 @@
+export type SwaggerPathResponsesSchema = {
+  $ref?: string
+  type?: string
+  items?: {
+    type?: string
+    enum?: any
+    $ref?: string
+    [k: string]: any
+  }
+}
+
 export type SwaggerPathResponses = {
   [Code: string]: {
     description: string
-    schema?: {
-      $ref: string
-    }
+    schema: SwaggerPathResponsesSchema
   }
 }
 
