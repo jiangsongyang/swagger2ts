@@ -61,4 +61,10 @@ export type SwaggerPathParameter = {
   type: string
   format: string
   schema: SwaggerSchema
+  items: {
+    uniqueItems?: boolean
+    type?: string
+    enum?: unknown
+    $ref?: string
+  }
 }

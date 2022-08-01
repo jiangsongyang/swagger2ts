@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { parseSwagger } from './parse'
 import type { API } from './API'
-import type { Interface, InterfaceEffect } from './Interface'
+import type { Interface } from './Interface'
+import type { EnumEffect } from '../type/EnumEffect'
 import { createLogger } from '../helper/logger'
 
 export type Swagger2TsOptions = {
@@ -28,7 +29,7 @@ export type ResolvedConfig = {
   pathsResult: API[]
   effectTypesWithParsePaths: any[]
   definitionsResult: Interface[]
-  effectTypesWithParseInterface: InterfaceEffect[]
+  effectTypesWithParseInterface: EnumEffect[]
 }
 
 export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedConfig> = async (

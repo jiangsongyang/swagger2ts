@@ -1,6 +1,7 @@
 import { transformType } from '../helper/transformType'
 import { replaceDefinitions } from '../helper/utils'
 import type { SwaggerPathItemValue, SwaggerSchema, SwaggerPathParameter } from '../type/SwaggerJson'
+import type { EnumEffect } from '../type/EnumEffect'
 
 type CreateAPIOptions = {
   method: string
@@ -14,12 +15,15 @@ export class API {
   apiName: string
   parameters: string
   responseType: string
+  effectTypesWithParseAPI: EnumEffect[]
 
   constructor({ method, pathConfig }: CreateAPIOptions) {
     this.method = method
     this.pathConfig = pathConfig
     this.apiDescription = pathConfig.summary
     this.apiName = pathConfig.operationId
+    this.effectTypesWithParseAPI = []
+
     this.parameters = this.parseParameters(pathConfig.parameters)
     this.responseType = this.parseResponseType(pathConfig.responses['200'].schema)
   }
@@ -54,6 +58,7 @@ export class API {
       if (items) {
         const { type: schemaType } = schema
         const { type: itemsType } = items
+
         if (schemaType === 'array') {
           return `\t${name}${!required ? '?' : ''}:${transformType(itemsType!)}[], `
         } else {
@@ -62,6 +67,28 @@ export class API {
       }
     }
     if (type) {
+      const { items } = parameter
+      if (items) {
+        const { enum: rowEnum = undefined } = items
+        if (rowEnum) {
+          const enumName = name.toUpperCase() + '_ENUM'
+
+          this.effectTypesWithParseAPI.push({
+            enumName,
+            enumValue: rowEnum
+            // TODO need add enum key
+
+            // TODO need add enum description
+          })
+
+          return `\t${name}${!required ? '?' : ''}:${enumName}${type === 'array' ? '[]' : ''}, `
+        } else {
+          const { type: rowType } = items
+          return `\t${name}${!required ? '?' : ''}:${transformType(rowType!)}${
+            type === 'array' ? '[]' : ''
+          }, `
+        }
+      }
       return `\t${name}${!required ? '?' : ''}:${transformType(type)}, `
     }
   }

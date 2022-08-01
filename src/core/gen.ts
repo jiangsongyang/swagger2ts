@@ -3,7 +3,8 @@ import { resolve } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import type { ResolvedConfig } from './config'
 import type { API } from './API'
-import type { Interface, InterfaceEffect } from './Interface'
+import type { Interface } from './Interface'
+import type { EnumEffect } from '../type/EnumEffect'
 
 const genAPIs = (pathsResult: API[]) => {
   return pathsResult
@@ -13,8 +14,8 @@ const genTypes = (definitionsResult: Interface[]) => {
   return definitionsResult
 }
 
-const genEnum = (enumResult: InterfaceEffect[]) => {
-  const res: InterfaceEffect[] = []
+const genEnum = (enumResult: EnumEffect[]) => {
+  const res: EnumEffect[] = []
   const enumNameSet = new Set()
 
   enumResult.forEach((enumItem: any) => {

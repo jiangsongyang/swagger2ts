@@ -1,14 +1,10 @@
 import { transformType } from '../helper/transformType'
 import { replaceDefinitions } from '../helper/utils'
+import type { EnumEffect } from '../type/EnumEffect'
 
 type InterfaceInfo = {
   interfaceName: string
   interfaceConfig: any
-}
-
-export type InterfaceEffect = {
-  enumName: string
-  enumValue: any
 }
 
 type InterfaceValue = {
@@ -20,7 +16,7 @@ type InterfaceValue = {
 export class Interface {
   interfaceName: string
   interfaceValue: InterfaceValue[]
-  effectTypesWithParseInterface: InterfaceEffect[]
+  effectTypesWithParseInterface: EnumEffect[]
 
   constructor(interfaceInfo: InterfaceInfo) {
     this.interfaceName = interfaceInfo.interfaceName

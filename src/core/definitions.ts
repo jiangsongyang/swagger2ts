@@ -1,10 +1,10 @@
 import { Interface } from './Interface'
-import type { InterfaceEffect } from './Interface'
 import type { SwaggerDefinitions } from '../type/SwaggerJson'
+import type { EnumEffect } from '../type/EnumEffect'
 
 export const transformDefinitions = (definitions: SwaggerDefinitions) => {
   const definitionsResult: Interface[] = []
-  const effectTypesWithParseInterface: InterfaceEffect[] = []
+  const effectTypesWithParseInterface: EnumEffect[] = []
   for (const interfaceName in definitions) {
     const interfaceConfig = definitions[interfaceName]
     definitionsResult.push(

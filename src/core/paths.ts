@@ -17,6 +17,12 @@ export const transformPaths = (paths: SwaggerPath) => {
     })
   }
 
+  pathsResult.forEach((pathResult) => {
+    if (pathResult.effectTypesWithParseAPI) {
+      effectTypesWithParsePaths.push(...pathResult.effectTypesWithParseAPI)
+    }
+  })
+
   return {
     pathsResult,
     effectTypesWithParsePaths
