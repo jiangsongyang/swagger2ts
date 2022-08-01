@@ -1,5 +1,5 @@
 import { transformType } from '../helper/transformType'
-import type { SwaggerPathItemValue, SwaggerPathResponsesSchema } from '../type/SwaggerJson'
+import type { SwaggerPathItemValue, SwaggerSchema, SwaggerPathParameter } from '../type/SwaggerJson'
 
 type CreateAPIOptions = {
   method: string
@@ -23,19 +23,48 @@ export class API {
     this.responseType = this.parseResponseType(pathConfig.responses['200'].schema)
   }
 
-  parseParameters(parseParameters: any[]) {
+  parseParameters(parseParameters: SwaggerPathParameter[]) {
     let res = ''
-    parseParameters.forEach((parameter) => {
-      const { name, required, type, description } = parameter
-      /** xxx:type , */
-      res += `${description ? `\n\t/** ${description} */\n` : ''}`
-      res += `\t${name}${!required ? '?' : ''}:${transformType(type)} , `
-    })
+    parseParameters
+      .sort((preParameter, afterParameter) => +afterParameter.required - +preParameter.required)
+      .forEach((parameter) => {
+        /** add description */
+        res += this.genDescription(parameter)
+        /** add parameters type */
+        res += this.genParameter(parameter)
+      })
 
     return res + '\n\t'
   }
 
-  parseResponseType(schema: SwaggerPathResponsesSchema) {
+  genDescription(parameter: SwaggerPathParameter) {
+    const { description } = parameter
+    return `${description ? `\n\t/** ${description} */\n` : ''}`
+  }
+
+  genParameter(parameter: SwaggerPathParameter) {
+    const { name, required, type, schema } = parameter
+    if (schema) {
+      const { $ref, items } = schema
+      if ($ref) {
+        return `\t${name}${!required ? '?' : ''}:${$ref.replace('#/definitions/', '')}, `
+      }
+      if (items) {
+        const { type: schemaType } = schema
+        const { type: itemsType } = items
+        if (schemaType === 'array') {
+          return `\t${name}${!required ? '?' : ''}:${transformType(itemsType!)}[], `
+        } else {
+          return `\t${name}${!required ? '?' : ''}:${transformType(itemsType!)}, `
+        }
+      }
+    }
+    if (type) {
+      return `\t${name}${!required ? '?' : ''}:${transformType(type)}, `
+    }
+  }
+
+  parseResponseType(schema: SwaggerSchema) {
     const { type, $ref } = schema
     if ($ref) {
       return $ref.replace('#/definitions/', '')

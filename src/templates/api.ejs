@@ -9,6 +9,9 @@ import axios from 'axios';
 <% } %>
 export function <%- API.apiName %>(<%- API.parameters %>options?: any
   ): Promise<<%- API.responseType %>> {
+
+    const 
+
     return axios({}).then(response => {
       if (response.status >= 200 && response.status < 300) {
         return response.data;

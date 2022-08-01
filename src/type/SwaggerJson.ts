@@ -1,4 +1,4 @@
-export type SwaggerPathResponsesSchema = {
+export type SwaggerSchema = {
   $ref?: string
   type?: string
   items?: {
@@ -12,7 +12,7 @@ export type SwaggerPathResponsesSchema = {
 export type SwaggerPathResponses = {
   [Code: string]: {
     description: string
-    schema: SwaggerPathResponsesSchema
+    schema: SwaggerSchema
   }
 }
 
@@ -49,4 +49,14 @@ export type SwaggerJson = {
   }
   paths: SwaggerPath
   definitions: SwaggerDefinitions
+}
+
+export type SwaggerPathParameter = {
+  name: string
+  in: string
+  description: string
+  required: boolean
+  type: string
+  format: string
+  schema: SwaggerSchema
 }
