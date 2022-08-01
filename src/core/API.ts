@@ -1,4 +1,5 @@
 import { transformType } from '../helper/transformType'
+import { replaceDefinitions } from '../helper/utils'
 import type { SwaggerPathItemValue, SwaggerSchema, SwaggerPathParameter } from '../type/SwaggerJson'
 
 type CreateAPIOptions = {
@@ -26,6 +27,7 @@ export class API {
   parseParameters(parseParameters: SwaggerPathParameter[]) {
     let res = ''
     parseParameters
+      /** required parameter should in arguments head */
       .sort((preParameter, afterParameter) => +afterParameter.required - +preParameter.required)
       .forEach((parameter) => {
         /** add description */
@@ -47,7 +49,7 @@ export class API {
     if (schema) {
       const { $ref, items } = schema
       if ($ref) {
-        return `\t${name}${!required ? '?' : ''}:${$ref.replace('#/definitions/', '')}, `
+        return `\t${name}${!required ? '?' : ''}:${replaceDefinitions($ref)}, `
       }
       if (items) {
         const { type: schemaType } = schema
@@ -67,7 +69,7 @@ export class API {
   parseResponseType(schema: SwaggerSchema) {
     const { type, $ref } = schema
     if ($ref) {
-      return $ref.replace('#/definitions/', '')
+      return replaceDefinitions($ref)
     }
     if (type) {
       return transformType(type)

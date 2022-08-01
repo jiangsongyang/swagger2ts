@@ -2,17 +2,19 @@ import ejs from 'ejs'
 import { resolve } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import type { ResolvedConfig } from './config'
+import type { API } from './API'
+import type { Interface, InterfaceEffect } from './Interface'
 
-const genAPIs = (pathsResult: any) => {
+const genAPIs = (pathsResult: API[]) => {
   return pathsResult
 }
 
-const genTypes = (definitionsResult: any) => {
+const genTypes = (definitionsResult: Interface[]) => {
   return definitionsResult
 }
 
-const genEnum = (enumResult: any) => {
-  const res: any = []
+const genEnum = (enumResult: InterfaceEffect[]) => {
+  const res: InterfaceEffect[] = []
   const enumNameSet = new Set()
 
   enumResult.forEach((enumItem: any) => {

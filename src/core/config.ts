@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { parseSwagger } from './parse'
-
+import type { API } from './API'
+import type { Interface, InterfaceEffect } from './Interface'
 import { createLogger } from '../helper/logger'
 
 export type Swagger2TsOptions = {
@@ -13,7 +14,22 @@ export type Swagger2TsOptions = {
 
 const logger = createLogger()
 
-export type ResolvedConfig = any
+export type ResolvedConfig = {
+  name: string
+  output: string
+  httpClientType: 'axios'
+  swaggerInfo: {
+    swaggerVersion: string
+    info: {
+      version: string
+      title: string
+    }
+  }
+  pathsResult: API[]
+  effectTypesWithParsePaths: any[]
+  definitionsResult: Interface[]
+  effectTypesWithParseInterface: InterfaceEffect[]
+}
 
 export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedConfig> = async (
   options
@@ -25,7 +41,7 @@ export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedCon
     process.exit(1)
   }
 
-  let swaggerJson: any = null
+  let swaggerJson: string | null = null
 
   if (input) {
     swaggerJson = readFileSync(input, 'utf8')
@@ -35,15 +51,11 @@ export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedCon
     }
   }
 
-  const res = await parseSwagger(swaggerJson)
-
   const resolved: ResolvedConfig = {
     name,
     output,
     httpClientType,
-    input,
-    url,
-    ...res
+    ...(await parseSwagger(swaggerJson!))
   }
 
   return resolved

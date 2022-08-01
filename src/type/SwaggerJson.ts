@@ -2,10 +2,10 @@ export type SwaggerSchema = {
   $ref?: string
   type?: string
   items?: {
+    uniqueItems?: boolean
     type?: string
-    enum?: any
+    enum?: unknown
     $ref?: string
-    [k: string]: any
   }
 }
 
@@ -37,7 +37,9 @@ export type SwaggerPath = {
 export type SwaggerDefinitions = {
   [Name: string]: {
     type: string
-    properties: any
+    properties: {
+      [Name: string]: SwaggerSchema
+    }
   }
 }
 

@@ -1,14 +1,26 @@
 import { transformType } from '../helper/transformType'
+import { replaceDefinitions } from '../helper/utils'
 
 type InterfaceInfo = {
   interfaceName: string
   interfaceConfig: any
 }
 
+export type InterfaceEffect = {
+  enumName: string
+  enumValue: any
+}
+
+type InterfaceValue = {
+  key: string
+  value: string
+  description: string
+}
+
 export class Interface {
   interfaceName: string
-  interfaceValue: Record<string, string>[]
-  effectTypesWithParseInterface: any[]
+  interfaceValue: InterfaceValue[]
+  effectTypesWithParseInterface: InterfaceEffect[]
 
   constructor(interfaceInfo: InterfaceInfo) {
     this.interfaceName = interfaceInfo.interfaceName
@@ -19,14 +31,14 @@ export class Interface {
   }
 
   parseInterfaceValue(properties: any) {
-    const res: any[] = []
+    const res: InterfaceValue[] = []
     Object.keys(properties).forEach((key) => {
       const { $ref, type, description, items, enum: rowEnum } = properties[key]
 
       if ($ref) {
         res.push({
           key,
-          value: $ref.replace('#/definitions/', ''),
+          value: replaceDefinitions($ref),
           description
         })
       }
@@ -45,7 +57,7 @@ export class Interface {
             // TODO need add enum description
           })
         } else if (items?.$ref) {
-          value = items?.$ref.replace('#/definitions/', '')
+          value = replaceDefinitions(items?.$ref)
         } else if (items?.type) {
           value = transformType(items?.type)
         } else {
