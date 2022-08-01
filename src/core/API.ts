@@ -44,7 +44,7 @@ export class API {
         prev = prev.replace(`{${name}}`, '${' + name + '}')
       }
       if (parameterPosition === 'query') {
-        if (!prev.endsWith('?')) {
+        if (!prev.endsWith('?') && !prev.endsWith('&')) {
           prev += '?'
         }
         prev += `${name}=$\{${name}}&`
