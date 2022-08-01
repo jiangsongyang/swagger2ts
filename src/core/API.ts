@@ -4,28 +4,55 @@ import type { SwaggerPathItemValue, SwaggerSchema, SwaggerPathParameter } from '
 import type { EnumEffect } from '../type/EnumEffect'
 
 type CreateAPIOptions = {
+  path: string
   method: string
   pathConfig: SwaggerPathItemValue
 }
 
 export class API {
   method: string
+  rowPath: string
   pathConfig: SwaggerPathItemValue
   apiDescription: string
   apiName: string
   parameters: string
   responseType: string
   effectTypesWithParseAPI: EnumEffect[]
+  apiUrl: string
+  requestData: string[]
 
-  constructor({ method, pathConfig }: CreateAPIOptions) {
+  constructor({ method, pathConfig, path }: CreateAPIOptions) {
     this.method = method
     this.pathConfig = pathConfig
     this.apiDescription = pathConfig.summary
     this.apiName = pathConfig.operationId
     this.effectTypesWithParseAPI = []
+    this.rowPath = path
 
     this.parameters = this.parseParameters(pathConfig.parameters)
     this.responseType = this.parseResponseType(pathConfig.responses['200'].schema)
+    this.apiUrl = this.parseUrl(pathConfig.parameters)
+    this.requestData = this.genData(pathConfig.parameters)
+  }
+
+  parseUrl(parameters: SwaggerPathParameter[]) {
+    const { rowPath } = this
+
+    const res = parameters.reduce((prev, item) => {
+      const { name, in: parameterPosition } = item
+      if (parameterPosition === 'path') {
+        prev = prev.replace(`{${name}}`, '${' + name + '}')
+      }
+      if (parameterPosition === 'query') {
+        if (!prev.endsWith('?')) {
+          prev += '?'
+        }
+        prev += `${name}=$\{${name}}&`
+      }
+      return prev
+    }, rowPath)
+
+    return res.endsWith('&') ? res.slice(0, -1) : res
   }
 
   parseParameters(parseParameters: SwaggerPathParameter[]) {
@@ -102,5 +129,15 @@ export class API {
       return transformType(type)
     }
     return ''
+  }
+
+  genData(parameter: SwaggerPathParameter[]) {
+    const res: string[] = []
+    parameter.forEach((item) => {
+      const { name, in: parameterPosition } = item
+      return parameterPosition === 'body' ? res.push(name) : res
+    })
+
+    return res
   }
 }

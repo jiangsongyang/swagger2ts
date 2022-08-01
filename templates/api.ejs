@@ -10,9 +10,25 @@ import axios from 'axios';
 export function <%- API.apiName %>(<%- API.parameters %>options?: any
   ): Promise<<%- API.responseType %>> {
 
-    const 
+    const config = {
+      method: '<%- API.method %>',
+      baseURL: 'localhost:8080',
+      url: `<%- API.apiUrl %>`,
+      <% if(['PUT', 'POST', 'DELETE' , 'PATCH'].includes(API.method.toUpperCase())){ %>
+        data: {
+        <% API.requestData.forEach(function(key){ %>
+          <%- key %> ,
+        <% }) %>
+        },
+      <% } %>
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+      timeout: 1000,
+      responseType: 'json',
+      responseEncoding: 'utf8',
+      ...options
+    }
 
-    return axios({}).then(response => {
+    return axios(config).then(response => {
       if (response.status >= 200 && response.status < 300) {
         return response.data;
       }

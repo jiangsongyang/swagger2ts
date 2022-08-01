@@ -11,7 +11,8 @@ export const transformPaths = (paths: SwaggerPath) => {
       pathsResult.push(
         new API({
           pathConfig: pathConfig[method],
-          method
+          method,
+          path
         })
       )
     })
