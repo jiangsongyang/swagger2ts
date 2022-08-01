@@ -8,6 +8,7 @@ import { createLogger } from '../helper/logger'
 export type Swagger2TsOptions = {
   name: string
   httpClientType: 'axios'
+  template: string
   input?: string
   url?: string
   output: string
@@ -19,6 +20,7 @@ export type ResolvedConfig = {
   name: string
   output: string
   httpClientType: 'axios'
+  templatePath: string
   swaggerInfo: {
     swaggerVersion: string
     info: {
@@ -35,7 +37,7 @@ export type ResolvedConfig = {
 export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedConfig> = async (
   options
 ) => {
-  const { name, output, httpClientType, input, url } = options
+  const { name, output, httpClientType, template, input, url } = options
 
   if (!input && !url) {
     logger.error('You must provide either an input file or a url')
@@ -56,6 +58,7 @@ export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedCon
     name,
     output,
     httpClientType,
+    templatePath: template,
     ...(await parseSwagger(swaggerJson!))
   }
 

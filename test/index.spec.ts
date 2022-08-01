@@ -7,6 +7,7 @@ describe('happy path', () => {
       name: 'genAPI.ts',
       output: resolve(__dirname, '../__generated__'),
       input: resolve(__dirname, '../mock/base.json'),
+      template: resolve(__dirname, '../templates/api.ejs'),
       httpClientType: 'axios'
     })
   })

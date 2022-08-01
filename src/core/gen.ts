@@ -1,5 +1,4 @@
 import ejs from 'ejs'
-import { resolve } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import type { ResolvedConfig } from './config'
 import type { API } from './API'
@@ -30,13 +29,15 @@ const genEnum = (enumResult: EnumEffect[]) => {
 
 export const genCode = async (resolvedConfig: ResolvedConfig) => {
   const {
+    templatePath,
+
     pathsResult,
     definitionsResult,
     effectTypesWithParsePaths,
     effectTypesWithParseInterface
   } = resolvedConfig
 
-  const template = readFileSync(resolve(__dirname, '../templates/api.ejs'), 'utf-8')
+  const template = readFileSync(templatePath, 'utf-8')
 
   const APIsResult = await genAPIs(pathsResult)
   const typesResult = await genTypes(definitionsResult)
