@@ -1,9 +1,13 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import ejs from 'ejs'
+import { checkDir, createDir } from '../helper/utils'
+import { createLogger } from '../helper/logger'
 import type { EnumEffect } from '../type/EnumEffect'
 import type { ResolvedConfig } from './config'
 import type { API } from './API'
 import type { Interface } from './Interface'
+
+const logger = createLogger()
 
 const genAPIs = (pathsResult: API[]) => {
   return pathsResult
@@ -29,8 +33,8 @@ const genEnum = (enumResult: EnumEffect[]) => {
 
 export const genCode = async (resolvedConfig: ResolvedConfig) => {
   const {
+    output,
     templatePath,
-
     pathsResult,
     definitionsResult,
     effectTypesWithParsePaths,
@@ -55,9 +59,11 @@ export const genCode = async (resolvedConfig: ResolvedConfig) => {
     })
     const { name } = resolvedConfig
 
-    await writeFileSync(`${name}`, buffer)
+    if (!(await checkDir(output))) await createDir(output)
+
+    await writeFileSync(`${output}/${name}`, buffer)
   }
   catch (e) {
-    console.log(e)
+    logger.error(e as string)
   }
 }

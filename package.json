@@ -1,5 +1,5 @@
 {
-  "name": "swagger2ts",
+  "name": "jsy-swagger2ts",
   "version": "1.0.0",
   "description": "swagger2ts",
   "main": "lib/swagger2ts.cjs.js",
@@ -30,7 +30,7 @@
     "url": "git+https://github.com/jiangsongyang/swagger2ts.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "jiangsongyang",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jiangsongyang/swagger2ts/issues"
