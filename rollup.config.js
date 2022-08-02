@@ -14,30 +14,30 @@ export default (commandLineArgs) => {
       {
         format: 'cjs',
         file: pkg.main,
-        sourcemap: !isProduction
+        sourcemap: !isProduction,
       },
       {
         format: 'es',
         file: pkg.module,
-        sourcemap: !isProduction
-      }
+        sourcemap: !isProduction,
+      },
     ],
     treeshake: {
       moduleSideEffects: 'no-external',
       propertyReadSideEffects: false,
-      tryCatchDeoptimization: false
+      tryCatchDeoptimization: false,
     },
     plugins: [
       json(),
       nodeResolve(),
       commonjs({
         include: 'node_modules/**',
-        exclude: []
+        exclude: [],
       }),
       babel({
-        exclude: '**/node_modules/**'
+        exclude: '**/node_modules/**',
       }),
-      typescript()
-    ]
+      typescript(),
+    ],
   }
 }
