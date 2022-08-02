@@ -25,15 +25,15 @@ const output = (type: LogType, msg: string) => {
   const prefix = 'swagger2ts'
 
   /* eslint no-nested-ternary: 0 */
-  const tag =
-    type === 'info'
+  const tag
+    = type === 'info'
       ? colors.cyan(colors.bold(prefix))
       : type === 'warn'
-      ? colors.yellow(colors.bold(prefix))
-      : colors.red(colors.bold(prefix))
+        ? colors.yellow(colors.bold(prefix))
+        : colors.red(colors.bold(prefix))
 
   console[type](
-    `${colors.bgWhite(colors.bold(new Date().toLocaleTimeString()))} : ${tag}  ` + '\n\t' + `${msg}`
+    `${colors.bgWhite(colors.bold(new Date().toLocaleTimeString()))} : ${tag}  ` + '\n\t' + `${msg}`,
   )
 }
 
@@ -54,7 +54,7 @@ export function createLogger(): Logger {
     },
     error(msg) {
       output('error', msg)
-    }
+    },
   }
 
   return logger

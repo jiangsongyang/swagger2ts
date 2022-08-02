@@ -1,6 +1,5 @@
-import { API } from './API'
-
 import type { SwaggerPath } from '../type/SwaggerJson'
+import { API } from './API'
 
 export const transformPaths = (paths: SwaggerPath) => {
   const pathsResult: API[] = []
@@ -12,20 +11,19 @@ export const transformPaths = (paths: SwaggerPath) => {
         new API({
           pathConfig: pathConfig[method],
           method,
-          path
-        })
+          path,
+        }),
       )
     })
   }
 
   pathsResult.forEach((pathResult) => {
-    if (pathResult.effectTypesWithParseAPI) {
+    if (pathResult.effectTypesWithParseAPI)
       effectTypesWithParsePaths.push(...pathResult.effectTypesWithParseAPI)
-    }
   })
 
   return {
     pathsResult,
-    effectTypesWithParsePaths
+    effectTypesWithParsePaths,
   }
 }

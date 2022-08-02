@@ -35,7 +35,7 @@ export class Interface {
         res.push({
           key,
           value: replaceDefinitions($ref),
-          description
+          description,
         })
       }
 
@@ -43,26 +43,29 @@ export class Interface {
         let value = ''
         const isArray = type === 'array'
         if (rowEnum) {
-          value = key.toUpperCase() + '_ENUM'
+          value = `${key.toUpperCase()}_ENUM`
 
           this.effectTypesWithParseInterface.push({
             enumName: value,
-            enumValue: rowEnum
+            enumValue: rowEnum,
             // TODO need add enum key
 
             // TODO need add enum description
           })
-        } else if (items?.$ref) {
+        }
+        else if (items?.$ref) {
           value = replaceDefinitions(items?.$ref)
-        } else if (items?.type) {
+        }
+        else if (items?.type) {
           value = transformType(items?.type)
-        } else {
+        }
+        else {
           value = transformType(type)
         }
         res.push({
           key,
           value: isArray ? `${value}[]` : value,
-          description
+          description,
         })
       }
     })

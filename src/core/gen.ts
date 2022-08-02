@@ -1,9 +1,9 @@
-import ejs from 'ejs'
 import { readFileSync, writeFileSync } from 'node:fs'
+import ejs from 'ejs'
+import type { EnumEffect } from '../type/EnumEffect'
 import type { ResolvedConfig } from './config'
 import type { API } from './API'
 import type { Interface } from './Interface'
-import type { EnumEffect } from '../type/EnumEffect'
 
 const genAPIs = (pathsResult: API[]) => {
   return pathsResult
@@ -34,7 +34,7 @@ export const genCode = async (resolvedConfig: ResolvedConfig) => {
     pathsResult,
     definitionsResult,
     effectTypesWithParsePaths,
-    effectTypesWithParseInterface
+    effectTypesWithParseInterface,
   } = resolvedConfig
 
   const template = readFileSync(templatePath, 'utf-8')
@@ -44,19 +44,20 @@ export const genCode = async (resolvedConfig: ResolvedConfig) => {
 
   const enumsResult = await genEnum([
     ...effectTypesWithParsePaths,
-    ...effectTypesWithParseInterface
+    ...effectTypesWithParseInterface,
   ])
 
   try {
     const buffer = ejs.render(template, {
       APIsResult,
       typesResult,
-      enumsResult
+      enumsResult,
     })
     const { name } = resolvedConfig
 
     await writeFileSync(`${name}`, buffer)
-  } catch (e) {
+  }
+  catch (e) {
     console.log(e)
   }
 }

@@ -1,14 +1,13 @@
+import type { SwaggerJson } from '../type/SwaggerJson'
 import { transformPaths } from './paths'
 import { transformDefinitions } from './definitions'
-
-import type { SwaggerJson } from '../type/SwaggerJson'
 
 export const parseSwagger = (swaggerJsonStr: string) => {
   const swaggerJson: SwaggerJson = JSON.parse(swaggerJsonStr)
   const { swagger, info, paths, definitions } = swaggerJson
   const swaggerInfo = {
     swaggerVersion: swagger,
-    info
+    info,
   }
 
   const { pathsResult, effectTypesWithParsePaths } = transformPaths(paths)
@@ -21,6 +20,6 @@ export const parseSwagger = (swaggerJsonStr: string) => {
     effectTypesWithParsePaths,
     // definitions
     definitionsResult,
-    effectTypesWithParseInterface
+    effectTypesWithParseInterface,
   }
 }

@@ -1,4 +1,4 @@
-import { resolveOptions, genCode } from './core'
+import { genCode, resolveOptions } from './core'
 import type { Swagger2TsOptions } from './core'
 
 export const swagger2ts = async (options: Swagger2TsOptions) => {

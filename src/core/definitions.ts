@@ -1,6 +1,6 @@
-import { Interface } from './Interface'
 import type { SwaggerDefinitions } from '../type/SwaggerJson'
 import type { EnumEffect } from '../type/EnumEffect'
+import { Interface } from './Interface'
 
 export const transformDefinitions = (definitions: SwaggerDefinitions) => {
   const definitionsResult: Interface[] = []
@@ -10,19 +10,18 @@ export const transformDefinitions = (definitions: SwaggerDefinitions) => {
     definitionsResult.push(
       new Interface({
         interfaceName,
-        interfaceConfig
-      })
+        interfaceConfig,
+      }),
     )
   }
 
   definitionsResult.forEach((interfaceRes) => {
-    if (interfaceRes.effectTypesWithParseInterface) {
+    if (interfaceRes.effectTypesWithParseInterface)
       effectTypesWithParseInterface.push(...interfaceRes.effectTypesWithParseInterface)
-    }
   })
 
   return {
     definitionsResult,
-    effectTypesWithParseInterface
+    effectTypesWithParseInterface,
   }
 }

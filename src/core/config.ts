@@ -1,9 +1,9 @@
 import { readFileSync } from 'node:fs'
+import type { EnumEffect } from '../type/EnumEffect'
+import { createLogger } from '../helper/logger'
 import { parseSwagger } from './parse'
 import type { API } from './API'
 import type { Interface } from './Interface'
-import type { EnumEffect } from '../type/EnumEffect'
-import { createLogger } from '../helper/logger'
 
 export type Swagger2TsOptions = {
   name: string
@@ -35,7 +35,7 @@ export type ResolvedConfig = {
 }
 
 export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedConfig> = async (
-  options
+  options,
 ) => {
   const { name, output, httpClientType, template, input, url } = options
 
@@ -59,7 +59,7 @@ export const resolveOptions: (options: Swagger2TsOptions) => Promise<ResolvedCon
     output,
     httpClientType,
     templatePath: template,
-    ...(await parseSwagger(swaggerJson!))
+    ...(await parseSwagger(swaggerJson!)),
   }
 
   return resolved
