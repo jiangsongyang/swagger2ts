@@ -37,7 +37,9 @@ export default (commandLineArgs) => {
       babel({
         exclude: '**/node_modules/**',
       }),
-      typescript(),
+      typescript({
+        tsconfig: './tsconfig.json',
+      }),
     ],
   }
 }

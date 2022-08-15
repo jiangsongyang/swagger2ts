@@ -4,6 +4,7 @@
   "description": "swagger2ts",
   "main": "lib/swagger2ts.cjs.js",
   "module": "lib/swagger2ts.esm.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
