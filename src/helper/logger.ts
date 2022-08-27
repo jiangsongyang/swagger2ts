@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 import colors from 'picocolors'
 import type { RollupError } from 'rollup'
 
