@@ -7,11 +7,11 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "precommit": "lint-staged",
     "prepare": "husky install",
     "dev": "rollup -c rollup.config.js -w --sourcemap",
     "build": "rollup -c rollup.config.js",
     "lint:eslint": "npx eslint \"src/**/*.{ts,tsx}\" --fix --fix",
-    "precommit": "lint-staged",
     "test": "jest"
   },
   "lint-staged": {
